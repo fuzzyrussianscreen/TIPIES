@@ -18,7 +18,7 @@ namespace TiPIES
         private SQLiteCommand sql_cmd;
         private DataSet DS = new DataSet();
         private DataTable DT = new DataTable();
-        private string sPath = Path.Combine(Application.StartupPath, "TIPIES.db");
+        private string sPath = Path.Combine("D:\\ФИСТ ИСЭбд\\Repos\\TIPIES\\TIPIES.db");
         public FormChartAccounts()
         {
             InitializeComponent();
@@ -47,5 +47,6 @@ namespace TiPIES
             dataGridView1.DataMember = ds.Tables[0].ToString();
             connect.Close();
         }
-    }
+    }
+
 }
