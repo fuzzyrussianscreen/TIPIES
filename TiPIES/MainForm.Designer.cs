@@ -116,6 +116,7 @@
             this.журналПроводокToolStripMenuItem1.Name = "журналПроводокToolStripMenuItem1";
             this.журналПроводокToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.журналПроводокToolStripMenuItem1.Text = "Журнал проводок";
+            this.журналПроводокToolStripMenuItem1.Click += new System.EventHandler(this.ЖурналПроводокToolStripMenuItem1_Click);
             // 
             // журналОперацийToolStripMenuItem1
             // 

@@ -14,8 +14,7 @@ namespace TiPIES
 {
     public partial class FormChartAccounts : Form
     {
-        private SQLiteConnection sql_con;
-        private SQLiteCommand sql_cmd;
+        
         private DataSet DS = new DataSet();
         private DataTable DT = new DataTable();
         private string sPath = Path.Combine("D:\\ФИСТ ИСЭбд\\Repos\\TIPIES\\TIPIES.db");

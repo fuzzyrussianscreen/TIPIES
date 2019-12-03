@@ -115,17 +115,9 @@ namespace TiPIES
 
                 string[] month = textBoxMonth.Text.Split('.');
 
-                if ((Convert.ToInt32(period1[2])< Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) < Convert.ToInt32(period2[2])))
+                if ((Convert.ToInt32(period1[2]) <= Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) <= Convert.ToInt32(period2[2])))
                 {
-                    if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
-                    {
-                        toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0] + " за " + row.ItemArray[1]);
-                        toolStripComboBoxEmployeePersonnelNumber.SelectedItem = 1;
-                    }
-                }
-                if ((Convert.ToInt32(period1[2]) == Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) == Convert.ToInt32(period2[2])))
-                {
-                    if ((Convert.ToInt32(period1[1]) <= Convert.ToInt32(month[0])) && (Convert.ToInt32(month[0]) <= Convert.ToInt32(period2[1])))
+                    if ((Convert.ToInt32(period1[2]) < Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) < Convert.ToInt32(period2[2])))
                     {
                         if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
                         {
@@ -133,7 +125,18 @@ namespace TiPIES
                             toolStripComboBoxEmployeePersonnelNumber.SelectedItem = 1;
                         }
                     }
+                    if ((Convert.ToInt32(period1[2]) == Convert.ToInt32(month[1])) && (Convert.ToInt32(period1[1]) <= Convert.ToInt32(month[0])) ||
+                    ((Convert.ToInt32(month[1]) == Convert.ToInt32(period2[2]))) && (Convert.ToInt32(month[0]) <= Convert.ToInt32(period2[1])))
+                    {
+                        if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
+                        {
+                            toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0] + " за " + row.ItemArray[1]);
+                            toolStripComboBoxEmployeePersonnelNumber.SelectedItem = 1;
+                        }
+                    }
+
                 }
+
             }
 
             connect.Close();

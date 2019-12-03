@@ -88,6 +88,12 @@
     <Compile Include="FormOperationsJournal.Designer.cs">
       <DependentUpon>FormOperationsJournal.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPostingJournal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPostingJournal.Designer.cs">
+      <DependentUpon>FormPostingJournal.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTypeAccounting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PostingJournal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormChartAccounts.resx">
@@ -125,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOperationsJournal.resx">
       <DependentUpon>FormOperationsJournal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPostingJournal.resx">
+      <DependentUpon>FormPostingJournal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTypeAccounting.resx">
       <DependentUpon>FormTypeAccounting.cs</DependentUpon>
