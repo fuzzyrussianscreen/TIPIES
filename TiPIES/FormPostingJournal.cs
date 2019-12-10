@@ -18,8 +18,10 @@ namespace TiPIES
         private DataSet DS = new DataSet();
         private DataTable DT = new DataTable();
         private string sPath = Path.Combine("D:\\ФИСТ ИСЭбд\\Repos\\TIPIES\\TIPIES.db");
-        public FormPostingJournal()
+        int? ID;
+        public FormPostingJournal(int? ID)
         {
+            this.ID = ID;
             InitializeComponent();
         }
 
@@ -27,7 +29,15 @@ namespace TiPIES
         {
             string ConnectionString = @"Data Source=" + sPath +
            ";New=False;Version=3";
-            String selectCommand = "Select * from PostingJournal where Date between '" + dateTimePicker1.Value.ToString(dateTimePicker1.CustomFormat.ToString()) + "' and '" + dateTimePicker2.Value.ToString(dateTimePicker2.CustomFormat.ToString()) + "'";
+            String selectCommand;
+            if (ID == null)
+            {
+                selectCommand = "Select * from PostingJournal where Date between '" + dateTimePicker1.Value.ToString(dateTimePicker1.CustomFormat.ToString()) + "' and '" + dateTimePicker2.Value.ToString(dateTimePicker2.CustomFormat.ToString()) + "'";
+            }
+            else
+            {
+                selectCommand = "Select * from PostingJournal where Date between '" + dateTimePicker1.Value.ToString(dateTimePicker1.CustomFormat.ToString()) + "' and '" + dateTimePicker2.Value.ToString(dateTimePicker2.CustomFormat.ToString()) + "' AND IdOperationsJournal="+ ID;
+            }
             selectTable(ConnectionString, selectCommand);
         }
 
@@ -108,7 +118,17 @@ namespace TiPIES
         {
             string ConnectionString = @"Data Source=" + sPath +
            ";New=False;Version=3";
-            String selectCommand = "Select * from PostingJournal";
+            String selectCommand;
+
+            if (ID == null)
+            {
+                selectCommand = "Select * from PostingJournal";
+            }
+            else
+            {
+                selectCommand = "Select * from PostingJournal where IdOperationsJournal =" + ID;
+            }
+
             selectTable(ConnectionString, selectCommand);
 
             SQLiteConnection connect = new

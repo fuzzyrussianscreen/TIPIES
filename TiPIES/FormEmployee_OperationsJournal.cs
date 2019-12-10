@@ -22,10 +22,13 @@ namespace TiPIES
         private string sPath = Path.Combine("D:\\ФИСТ ИСЭбд\\Repos\\TIPIES\\TIPIES.db");
 
         private int? ID = null;
+
+        PostingJournal journal;
         public FormEmployee_OperationsJournal(int? ID)
         {
             this.ID = ID;
             InitializeComponent();
+            journal = new PostingJournal();
         }
 
         private void OperationsJournal_Load(object sender, EventArgs e)
@@ -107,7 +110,7 @@ namespace TiPIES
 
             toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Clear();
 
-            foreach ( DataRow row in ds.Tables[0].Rows)
+            foreach (DataRow row in ds.Tables[0].Rows)
             {
                 string[] period = row.ItemArray[1].ToString().Split('-');
                 string[] period1 = period[0].Split('.');
@@ -121,7 +124,7 @@ namespace TiPIES
                     {
                         if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
                         {
-                            toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0] + " за " + row.ItemArray[1]);
+                            toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0]); //+ " за " + row.ItemArray[1]) ;
                             toolStripComboBoxEmployeePersonnelNumber.SelectedItem = 1;
                         }
                     }
@@ -130,7 +133,7 @@ namespace TiPIES
                     {
                         if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
                         {
-                            toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0] + " за " + row.ItemArray[1]);
+                            toolStripComboBoxEmployeePersonnelNumber.ComboBox.Items.Add(row.ItemArray[0]); //+ " за " + row.ItemArray[1]);
                             toolStripComboBoxEmployeePersonnelNumber.SelectedItem = 1;
                         }
                     }
@@ -152,10 +155,72 @@ namespace TiPIES
 
                 if (toolStripComboBoxEmployeePersonnelNumber.Items.Count == 0)
                 {
-                    MessageBox.Show("Нет сотрудников за этот период", "Ошибка");
+                    //MessageBox.Show("Нет сотрудников за этот период", "Ошибка");
                 }
             }
         }
+
+        private void ToolStripComboBoxIdAccounting_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((toolStripComboBoxTypeAccounting.Text != "")&&(toolStripComboBoxEmployeePersonnelNumber.Text !=""))
+            {
+                string Sum = getSum();
+                if (Sum != null)
+                {
+                    toolStripTextBoxSum.Text = Sum;
+                }
+            }
+        }
+        public string getSum()
+        {
+            string Sum = null;
+
+            string ConnectionString = @"Data Source=" + sPath + ";New=False;Version=3";
+            string selectCommand = "select EmployeePersonnelNumber, WorkPeriod, IdUnit, Salary from Unit_Employee where EmployeePersonnelNumber=" + toolStripComboBoxEmployeePersonnelNumber.Text + " AND IdUnit= " + toolStripComboBoxIdUnit.Text;
+
+            SQLiteConnection connect = new
+           SQLiteConnection(ConnectionString);
+            connect.Open();
+            SQLiteDataAdapter dataAdapter = new
+           SQLiteDataAdapter(selectCommand, connect);
+            DataSet ds = new DataSet();
+            dataAdapter.Fill(ds);
+            connect.Close();
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                string[] period = row.ItemArray[1].ToString().Split('-');
+                string[] period1 = period[0].Split('.');
+                string[] period2 = period[1].Split('.');
+
+                selectCommand = "select PeriodOperation from OperationsJournal where Id=" + textBoxNumber.Text;
+                string monthOper = selectValue(ConnectionString, selectCommand).ToString();
+
+                string[] month = monthOper.Split('.');
+
+                if ((Convert.ToInt32(period1[2]) <= Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) <= Convert.ToInt32(period2[2])))
+                {
+                    if ((Convert.ToInt32(period1[2]) < Convert.ToInt32(month[1])) && (Convert.ToInt32(month[1]) < Convert.ToInt32(period2[2])))
+                    {
+                        if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
+                        {
+                        }
+                        Sum = row.ItemArray[3].ToString();
+                    }
+                    if ((Convert.ToInt32(period1[2]) == Convert.ToInt32(month[1])) && (Convert.ToInt32(period1[1]) <= Convert.ToInt32(month[0])) ||
+                    ((Convert.ToInt32(month[1]) == Convert.ToInt32(period2[2]))) && (Convert.ToInt32(month[0]) <= Convert.ToInt32(period2[1])))
+                    {
+                        if (row.ItemArray[2].ToString() == toolStripComboBoxIdUnit.Text)
+                        {
+                        }
+                        Sum = row.ItemArray[3].ToString();
+                    }
+
+                }
+            }
+            return Sum;
+        }
+
 
         public void selectComboBoxIdUnit(string ConnectionString, String selectCommand)
         {
@@ -191,7 +256,6 @@ namespace TiPIES
             toolStripComboBoxTypeAccounting.ComboBox.SelectedItem = 1;
             connect.Close();
         }
-
         public void selectTable(string ConnectionString, String selectCommand)
         {
             SQLiteConnection connect = new
@@ -206,7 +270,6 @@ namespace TiPIES
             dataGridView1.DataMember = ds.Tables[0].ToString();
             connect.Close();
         }
-
         private void ExecuteQuery(string txtQuery)
         {
             sql_con = new SQLiteConnection("Data Source=" + sPath +
@@ -217,7 +280,6 @@ namespace TiPIES
             sql_cmd.ExecuteNonQuery();
             sql_con.Close();
         }
-
         public void refreshForm(string ConnectionString, String selectCommand)
         {
             selectTable(ConnectionString, selectCommand);
@@ -230,28 +292,28 @@ namespace TiPIES
 
             toolStripTextBoxSum.Clear();
 
-            toolStripComboBoxEmployeePersonnelNumber.SelectedIndex = 1;
-            toolStripComboBoxIdUnit.SelectedIndex = 1;
+            toolStripComboBoxEmployeePersonnelNumber.SelectedIndex = -1;
+            //toolStripComboBoxIdUnit.SelectedIndex = -1;
         }
-
         public void updateSum()
         {
             double total = 0;
-            for (int i=0; i< dataGridView1.Rows.Count; i++)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 total = total + Convert.ToDouble(dataGridView1.Rows[i].Cells[3].Value);
             }
             textBoxTotal.Text = total.ToString();
 
         }
-
         private void ToolStripButtonDelete_Click(object sender, EventArgs e)
         {
             //выбрана строка CurrentRow
             int CurrentRow = dataGridView1.SelectedCells[0].RowIndex;
             //получить значение idMOL выбранной строки
             string valueId = dataGridView1[0, CurrentRow].Value.ToString();
-            String selectCommand = "delete from Employee_JournalOperation where EmployeePersonnelNumber=" + valueId;
+            string valueId2 = dataGridView1[1, CurrentRow].Value.ToString();
+            string valueId3 = dataGridView1[2, CurrentRow].Value.ToString();
+            String selectCommand = "delete from Employee_JournalOperation where EmployeePersonnelNumber=" + valueId2 + " AND IdJournalOperations=" + valueId + " AND IdAccounting=" + valueId3;
             string ConnectionString = @"Data Source=" + sPath +
            ";New=False;Version=3";
             changeValue(ConnectionString, selectCommand);
@@ -259,11 +321,41 @@ namespace TiPIES
             selectCommand = "Select * from Employee_JournalOperation where IdJournalOperations = " + textBoxNumber.Text;
             refreshForm(ConnectionString, selectCommand);
 
+            selectCommand = "delete from PostingJournal where IdOperationsJournal=" + textBoxNumber.Text;
+
+            SQLiteConnection connect = new
+           SQLiteConnection(ConnectionString);
+            connect.Open();
+            SQLiteTransaction trans;
+            SQLiteCommand cmd = new SQLiteCommand();
+            trans = connect.BeginTransaction();
+            cmd.Connection = connect;
+            cmd.CommandText = selectCommand;
+            cmd.ExecuteNonQuery();
+            trans.Commit();
+
+            selectCommand = "Select IdJournalOperations, EmployeePersonnelNumber, IdAccounting, Sum from Employee_JournalOperation where IdJournalOperations=" + textBoxNumber.Text;
+
+            SQLiteDataAdapter dataAdapter = new
+           SQLiteDataAdapter(selectCommand, connect);
+            DataSet ds = new DataSet();
+            dataAdapter.Fill(ds);
+
+            connect.Close();
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                selectCommand = "select UnitId from OperationsJournal where Id=" + row.ItemArray[0].ToString();
+                string UnitId = selectValue(ConnectionString, selectCommand).ToString();
+
+                journal.addPostingJournal(row.ItemArray[0].ToString(), row.ItemArray[1].ToString(), row.ItemArray[2].ToString(), row.ItemArray[3].ToString(), UnitId);
+            }
+
             toolStripTextBoxSum.Clear();
 
-            toolStripComboBoxEmployeePersonnelNumber.SelectedIndex = 1;
-            toolStripComboBoxTypeAccounting.SelectedIndex = 1;
-            toolStripComboBoxIdUnit.SelectedIndex = 1;
+            toolStripComboBoxEmployeePersonnelNumber.SelectedIndex = -1;
+            toolStripComboBoxTypeAccounting.SelectedIndex = -1;
+            toolStripComboBoxIdUnit.SelectedIndex = -1;
 
             updateSum();
         }
@@ -276,6 +368,7 @@ namespace TiPIES
                 {
                     saveOperation();
                 }
+                journal.addPostingJournal(textBoxNumber.Text, toolStripComboBoxEmployeePersonnelNumber.Text, toolStripComboBoxTypeAccounting.Text, toolStripTextBoxSum.Text, toolStripComboBoxIdUnit.Text);
                 check("Add");
             }
             else
@@ -287,6 +380,41 @@ namespace TiPIES
         private void ToolStripButtonChange_Click(object sender, EventArgs e)
         {
             check("Change");
+
+            string ConnectionString = @"Data Source=" + sPath +
+          ";New=False;Version=3";
+
+            string selectCommand = "delete from PostingJournal where IdOperationsJournal=" + textBoxNumber.Text;
+
+
+            SQLiteConnection connect = new
+           SQLiteConnection(ConnectionString);
+            connect.Open();
+            SQLiteTransaction trans;
+            SQLiteCommand cmd = new SQLiteCommand();
+            trans = connect.BeginTransaction();
+            cmd.Connection = connect;
+            cmd.CommandText = selectCommand;
+            cmd.ExecuteNonQuery();
+            trans.Commit();
+
+            selectCommand = "Select IdJournalOperations, EmployeePersonnelNumber, IdAccounting, Sum from Employee_JournalOperation where IdJournalOperations=" + textBoxNumber.Text;
+
+
+            SQLiteDataAdapter dataAdapter = new
+           SQLiteDataAdapter(selectCommand, connect);
+            DataSet ds = new DataSet();
+            dataAdapter.Fill(ds);
+
+            connect.Close();
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                selectCommand = "select UnitId from OperationsJournal where Id=" + row.ItemArray[0].ToString();
+                string UnitId = selectValue(ConnectionString, selectCommand).ToString();
+
+                journal.addPostingJournal(row.ItemArray[0].ToString(), row.ItemArray[1].ToString(), row.ItemArray[2].ToString(), row.ItemArray[3].ToString(), UnitId);
+            }
         }
 
         private void check(string operation)
@@ -323,6 +451,7 @@ namespace TiPIES
                         }
                         else
                         {
+                            /*
                             int CurrentRow = dataGridView1.SelectedCells[0].RowIndex;
                             //получить значение Name выбранной строки
                             string valueId = dataGridView1[1, CurrentRow].Value.ToString();
@@ -340,7 +469,20 @@ namespace TiPIES
                             changeValue(ConnectionString, selectCommand);
                             //обновление dataGridView1
                             selectCommand = "select * from Unit_Employee";
-                            refreshForm(ConnectionString, selectCommand);
+                            refreshForm(ConnectionString, selectCommand);*/
+
+                            //выбрана строка CurrentRow
+                            int CurrentRow = dataGridView1.SelectedCells[0].RowIndex;
+                            //получить значение idMOL выбранной строки
+                            string valueId = dataGridView1[0, CurrentRow].Value.ToString();
+                            string valueId2 = dataGridView1[1, CurrentRow].Value.ToString();
+                            string valueId3 = dataGridView1[2, CurrentRow].Value.ToString();
+                            String selectCommand = "delete from Employee_JournalOperation where EmployeePersonnelNumber=" + valueId2 + " AND IdJournalOperations=" + valueId + " AND IdAccounting=" + valueId3;
+                            string ConnectionString = @"Data Source=" + sPath +
+                           ";New=False;Version=3";
+                            changeValue(ConnectionString, selectCommand);
+
+                            check("Add");
                         }
 
                         updateSum();
@@ -406,7 +548,7 @@ namespace TiPIES
         public bool checkOperationExist()
         {
             string ConnectionString = @"Data Source=" + sPath + ";New=False;Version=3";
-            string selectCommand = "Select * from OperationsJournal where UnitId = " + toolStripComboBoxIdUnit.Text + " AND " + "PeriodOperation = '" + textBoxMonth.Text +"'";
+            string selectCommand = "Select * from OperationsJournal where UnitId = " + toolStripComboBoxIdUnit.Text + " AND " + "PeriodOperation = '" + textBoxMonth.Text + "'";
 
             SQLiteConnection connect = new
            SQLiteConnection(ConnectionString);
@@ -433,7 +575,7 @@ namespace TiPIES
             if (checkDataOperation() || (ID != null))
             {
                 saveOperation();
-            //this.Close();
+                //this.Close();
             }
         }
 
@@ -570,6 +712,10 @@ namespace TiPIES
             selectData(ConnectionString, selectCommand);
         }
 
-        
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            Form formPostingJournal = new FormPostingJournal(ID);
+            formPostingJournal.ShowDialog();
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace TiPIES
 
         private void ЖурналПроводокToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Form formPostingJournal = new FormPostingJournal();
+            Form formPostingJournal = new FormPostingJournal(null);
             formPostingJournal.ShowDialog();
         }
     }

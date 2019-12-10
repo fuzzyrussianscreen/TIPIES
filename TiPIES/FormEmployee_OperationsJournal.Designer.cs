@@ -54,6 +54,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.toolStripComboBoxIdUnit = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -76,58 +77,60 @@
             this.toolStripButtonAdd,
             this.toolStripButtonChange,
             this.toolStripButtonDelete});
-            this.bindingNavigator1.Location = new System.Drawing.Point(1071, 0);
+            this.bindingNavigator1.Location = new System.Drawing.Point(1073, 0);
             this.bindingNavigator1.MoveFirstItem = null;
             this.bindingNavigator1.MoveLastItem = null;
             this.bindingNavigator1.MoveNextItem = null;
             this.bindingNavigator1.MovePreviousItem = null;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = null;
-            this.bindingNavigator1.Size = new System.Drawing.Size(140, 486);
+            this.bindingNavigator1.Size = new System.Drawing.Size(138, 486);
             this.bindingNavigator1.TabIndex = 3;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(137, 20);
+            this.toolStripLabel1.Size = new System.Drawing.Size(135, 20);
             this.toolStripLabel1.Text = "Табельный номер";
             // 
             // toolStripComboBoxEmployeePersonnelNumber
             // 
             this.toolStripComboBoxEmployeePersonnelNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxEmployeePersonnelNumber.Name = "toolStripComboBoxEmployeePersonnelNumber";
-            this.toolStripComboBoxEmployeePersonnelNumber.Size = new System.Drawing.Size(135, 28);
+            this.toolStripComboBoxEmployeePersonnelNumber.Size = new System.Drawing.Size(133, 28);
+            this.toolStripComboBoxEmployeePersonnelNumber.Click += new System.EventHandler(this.ToolStripComboBoxIdUnit_SelectedIndexChanged);
             // 
             // toolStripLabel6
             // 
             this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Size = new System.Drawing.Size(137, 20);
+            this.toolStripLabel6.Size = new System.Drawing.Size(135, 20);
             this.toolStripLabel6.Text = "Вид расчёта";
             // 
             // toolStripComboBoxTypeAccounting
             // 
             this.toolStripComboBoxTypeAccounting.Name = "toolStripComboBoxTypeAccounting";
-            this.toolStripComboBoxTypeAccounting.Size = new System.Drawing.Size(135, 28);
+            this.toolStripComboBoxTypeAccounting.Size = new System.Drawing.Size(133, 28);
+            this.toolStripComboBoxTypeAccounting.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxIdAccounting_SelectedIndexChanged);
             // 
             // toolStripLabel8
             // 
             this.toolStripLabel8.Name = "toolStripLabel8";
-            this.toolStripLabel8.Size = new System.Drawing.Size(137, 20);
+            this.toolStripLabel8.Size = new System.Drawing.Size(135, 20);
             this.toolStripLabel8.Text = "Сумма";
             // 
             // toolStripTextBoxSum
             // 
             this.toolStripTextBoxSum.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxSum.Name = "toolStripTextBoxSum";
-            this.toolStripTextBoxSum.Size = new System.Drawing.Size(135, 27);
+            this.toolStripTextBoxSum.Size = new System.Drawing.Size(133, 27);
             // 
             // toolStripButtonAdd
             // 
             this.toolStripButtonAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAdd.Image")));
             this.toolStripButtonAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAdd.Name = "toolStripButtonAdd";
-            this.toolStripButtonAdd.Size = new System.Drawing.Size(137, 24);
+            this.toolStripButtonAdd.Size = new System.Drawing.Size(135, 24);
             this.toolStripButtonAdd.Text = "Добавить";
             this.toolStripButtonAdd.Click += new System.EventHandler(this.ToolStripButtonAdd_Click);
             // 
@@ -136,7 +139,7 @@
             this.toolStripButtonChange.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonChange.Image")));
             this.toolStripButtonChange.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonChange.Name = "toolStripButtonChange";
-            this.toolStripButtonChange.Size = new System.Drawing.Size(137, 24);
+            this.toolStripButtonChange.Size = new System.Drawing.Size(135, 24);
             this.toolStripButtonChange.Text = "Изменить";
             this.toolStripButtonChange.Click += new System.EventHandler(this.ToolStripButtonChange_Click);
             // 
@@ -145,7 +148,7 @@
             this.toolStripButtonDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDelete.Image")));
             this.toolStripButtonDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDelete.Name = "toolStripButtonDelete";
-            this.toolStripButtonDelete.Size = new System.Drawing.Size(137, 24);
+            this.toolStripButtonDelete.Size = new System.Drawing.Size(135, 24);
             this.toolStripButtonDelete.Text = "Удалить";
             this.toolStripButtonDelete.Click += new System.EventHandler(this.ToolStripButtonDelete_Click);
             // 
@@ -274,11 +277,22 @@
             this.toolStripComboBoxIdUnit.TabIndex = 17;
             this.toolStripComboBoxIdUnit.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxIdUnit_SelectedIndexChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(593, 426);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(250, 50);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "Открыть список проводОчек";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // FormEmployee_OperationsJournal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1211, 486);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.toolStripComboBoxIdUnit);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -332,5 +346,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox toolStripComboBoxIdUnit;
+        private System.Windows.Forms.Button button1;
     }
 }

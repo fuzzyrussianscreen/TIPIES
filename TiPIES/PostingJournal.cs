@@ -145,6 +145,12 @@ namespace TiPIES
             selectCommand = "select Subconto1 from ChartAccounts where NumberAccount=" + this.CreditAccount;
             this.SubcontoKt1 = selectValue(ConnectionString, selectCommand);
 
+            if (name == "Алименты")
+            {
+                selectCommand = "select FullName from Employee where PersonnelNumber=" + EmployeePersonnelNumber;
+                this.SubcontoKt1 = selectValue(ConnectionString, selectCommand);
+            }
+
             selectCommand = "select Subconto2 from ChartAccounts where NumberAccount=" + this.CreditAccount;
             this.SubcontoKt2 = selectValue(ConnectionString, selectCommand);
             #endregion
