@@ -114,14 +114,14 @@
             // журналПроводокToolStripMenuItem1
             // 
             this.журналПроводокToolStripMenuItem1.Name = "журналПроводокToolStripMenuItem1";
-            this.журналПроводокToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.журналПроводокToolStripMenuItem1.Size = new System.Drawing.Size(220, 26);
             this.журналПроводокToolStripMenuItem1.Text = "Журнал проводок";
             this.журналПроводокToolStripMenuItem1.Click += new System.EventHandler(this.ЖурналПроводокToolStripMenuItem1_Click);
             // 
             // журналОперацийToolStripMenuItem1
             // 
             this.журналОперацийToolStripMenuItem1.Name = "журналОперацийToolStripMenuItem1";
-            this.журналОперацийToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.журналОперацийToolStripMenuItem1.Size = new System.Drawing.Size(220, 26);
             this.журналОперацийToolStripMenuItem1.Text = "Журнал операций";
             this.журналОперацийToolStripMenuItem1.Click += new System.EventHandler(this.ЖурналОперацийToolStripMenuItem1_Click);
             // 
@@ -130,6 +130,7 @@
             this.отчётToolStripMenuItem.Name = "отчётToolStripMenuItem";
             this.отчётToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
             this.отчётToolStripMenuItem.Text = "Отчёт";
+            this.отчётToolStripMenuItem.Click += new System.EventHandler(this.ОтчётToolStripMenuItem_Click);
             // 
             // MainForm
             // 
